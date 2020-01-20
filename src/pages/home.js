@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import axios from "axios";
 
 //? Custom JSX
-
 import Shuttle from "../components/Shuttle";
+import Profile from "../components/Profile";
+
 //? MUI imports!
 import Grid from "@material-ui/core/Grid";
 
@@ -33,11 +34,11 @@ export class home extends Component {
     );
     return (
       <Grid container spacing={10}>
-        <Grid item sm={6} xs={12}>
+        <Grid item sm={6} xs={12} className="shuttleBay">
           {recentShuttleMarkup}
         </Grid>
         <Grid item sm={4} xs={12}>
-          <p>Profile here</p>
+          <Profile />
         </Grid>
       </Grid>
     );

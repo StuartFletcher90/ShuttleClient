@@ -12,7 +12,7 @@ a {
 /* Bootstrap style container for Ben */
 
 .container {
-  margin: 80px auto 0 auto;
+  margin: 70px auto;
   max-width: 1200px;
 }
 
@@ -21,9 +21,57 @@ a {
 }
 
 .App {
-  background-image: url("./Assets/StarrySkyBackground.png");
-  background-repeat: no-repeat;
+  background-image: url("./Assets/specialStarry.jpg");
+  background-repeat: repeat;
   background-size: cover;
   height: 100vh;
-  width: 100%;
+  width: 100vw;
+  -webkit-animation: slide 50s linear infinite;
+}
+
+.signupMessage {
+  margin-top: 50px;
+}
+.TextField {
+  color: white !important;
+}
+
+.MuiInput-underline:before {
+  border-bottom: 1px white solid !important;
+}
+
+.shuttleBay {
+  margin-top: 20px;
+}
+@keyframes slide {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: -1200px 0;
+  }
+}
+
+@keyframes example {
+  0% {
+    transform: translate(30px, 15px);
+  }
+  50% {
+    transform: translate(-10px, -5px);
+  }
+  100% {
+    transform: translate(-40px, 30px);
+  }
+}
+
+@keyframes Ufo {
+  0% {
+    transform: translate(30px, 15px);
+  }
+  50% {
+    transform: translate(-80px, 30px);
+  }
+  100% {
+    transform: translate(30px, 15px);
+  }
 }
