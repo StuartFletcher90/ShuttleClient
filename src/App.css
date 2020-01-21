@@ -19,6 +19,9 @@ a {
 .Nav-container {
   margin: auto;
 }
+.Nav-container svg {
+  color: #ffffff;
+}
 
 .App {
   background-image: url("./Assets/specialStarry.jpg");

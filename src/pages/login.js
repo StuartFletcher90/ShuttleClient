@@ -81,6 +81,9 @@ class login extends Component {
       errors: {}
     };
   }
+
+  //? Replace with 'getDerivedStateFromProps'
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.UI.errors) {
       this.setState({ errors: nextProps.UI.errors });

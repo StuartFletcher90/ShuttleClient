@@ -2,7 +2,9 @@ import {
   SET_USER,
   SET_AUTHENTICATED,
   SET_UNAUTHENTICATED,
-  LOADING_USER
+  LOADING_USER,
+  LIKE_SHUTTLE,
+  UNLIKE_SHUTTLE
 } from "../reducers/types";
 
 const initialState = {
@@ -32,6 +34,24 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading: true
+      };
+    case LIKE_SHUTTLE:
+      return {
+        ...state,
+        likes: [
+          ...state.likes,
+          {
+            userHandle: state.credentials.handle,
+            shuttleId: action.payload.shuttleId
+          }
+        ]
+      };
+    case UNLIKE_SHUTTLE:
+      return {
+        ...state,
+        likes: state.likes.filter(
+          like => like.shuttleId !== action.payload.shuttleId
+        )
       };
     default:
       return state;

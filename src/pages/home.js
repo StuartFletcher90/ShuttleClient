@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios";
+import PropTypes from "prop-types";
 
 //? Custom JSX
 import Shuttle from "../components/Shuttle";
@@ -8,25 +8,18 @@ import Profile from "../components/Profile";
 //? MUI imports!
 import Grid from "@material-ui/core/Grid";
 
+import { connect } from "react-redux";
+import { getShuttles } from "../redux/actions/dataActions";
+
 export class home extends Component {
-  state = {
-    shuttle: null
-  };
   componentDidMount() {
-    //! Get data ftom server and setState with shuttle posts from Cloud
-    axios
-      .get("/shuttle")
-      .then(res => {
-        console.log(res.data);
-        this.setState({
-          shuttle: res.data
-        });
-      })
-      .catch(err => console.log(err));
+    this.props.getShuttles();
   }
   render() {
-    let recentShuttleMarkup = this.state.shuttle ? (
-      this.state.shuttle.map(shuttle => (
+    const { shuttle, loading } = this.props.data;
+
+    let recentShuttleMarkup = !loading ? (
+      shuttle.map(shuttle => (
         <Shuttle key={shuttle.shuttleId} shuttle={shuttle} />
       ))
     ) : (
@@ -45,4 +38,13 @@ export class home extends Component {
   }
 }
 
-export default home;
+home.propTypes = {
+  getShuttles: PropTypes.func.isRequired,
+  data: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  data: state.data
+});
+
+export default connect(mapStateToProps, { getShuttles })(home);

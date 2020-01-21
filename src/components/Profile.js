@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+import EditDetails from "../components/EditDetails";
+import MyButton from "../utility/MyButton";
 
 //? MUI imports
 import Button from "@material-ui/core/Button";
@@ -93,13 +95,13 @@ class Profile extends Component {
     const {
       classes,
       user: {
-        credentials: { handle, createAt, imageUrl, bio, website, location },
+        credentials: { handle, createdAt, imageUrl, bio, website, location },
         loading,
         authenticated
       }
     } = this.props;
 
-    let profileMarkUp = !loading ? (
+    let profileMarkup = !loading ? (
       authenticated ? (
         <Paper className={classes.paper}>
           <div className={classes.profile}>
@@ -111,11 +113,13 @@ class Profile extends Component {
                 hidden="hidden"
                 onChange={this.handleImageChange}
               />
-              <Tooltip title="Edit profile picture" placement="top">
-                <IconButton onClick={this.handleEditPicture} className="button">
-                  <EditIcon color="primary" />
-                </IconButton>
-              </Tooltip>
+              <MyButton
+                tip="Edit profile picture"
+                onClick={this.handleEditPicture}
+                btnClassName="button"
+              >
+                <EditIcon color="primary" />
+              </MyButton>
             </div>
             <hr />
             <div className="profile-details">
@@ -133,12 +137,13 @@ class Profile extends Component {
               {location && (
                 <Fragment>
                   <LocationOn color="primary" /> <span>{location}</span>
+                  <hr />
                 </Fragment>
               )}
               {website && (
                 <Fragment>
                   <LinkIcon color="primary" />
-                  <a href={website} target="blank" rel="noopener noref">
+                  <a href={website} target="_blank" rel="noopener noreferrer">
                     {" "}
                     {website}
                   </a>
@@ -146,44 +151,43 @@ class Profile extends Component {
                 </Fragment>
               )}
               <CalendarToday color="primary" />{" "}
-              <span>Joined {dayjs(createAt).format("MMM YYYY")}</span>
+              <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
             </div>
-            <Tooltip title="logout" placement="top">
-              <IconButton onClick={this.handleLogout}>
-                <KeyboardReturn color="primary" />
-              </IconButton>
-            </Tooltip>
+            <MyButton tip="Logout" onClick={this.handleLogout}>
+              <KeyboardReturn color="primary" />
+            </MyButton>
+            <EditDetails />
           </div>
         </Paper>
       ) : (
         <Paper className={classes.paper}>
           <Typography variant="body2" align="center">
-            No pilot has been found, please login again!
-            <div className={classes.buttons}>
-              <Button
-                variant="contained"
-                color="primary"
-                component={Link}
-                to="/login"
-              >
-                Login
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                component={Link}
-                to="/signup"
-              >
-                signup
-              </Button>
-            </div>
+            No profile found, please login again
           </Typography>
+          <div className={classes.buttons}>
+            <Button
+              variant="contained"
+              color="primary"
+              component={Link}
+              to="/login"
+            >
+              Login
+            </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              component={Link}
+              to="/signup"
+            >
+              Signup
+            </Button>
+          </div>
         </Paper>
       )
     ) : (
       <p>Loading...</p>
     );
-    return profileMarkUp;
+    return profileMarkup;
   }
 }
 
@@ -199,4 +203,7 @@ Profile.propTypes = {
   user: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired
 };
-export default connect(mapStateToProps)(withStyles(styles)(Profile));
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(withStyles(styles)(Profile));
