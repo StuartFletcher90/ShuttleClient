@@ -1,76 +1,22 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
-
-//? Logo & Images.
-
 import AppIcon from "../Assets/rocketShip.png";
+import { Link } from "react-router-dom";
 
-//? Material UI imports.
+// MUI Stuff
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import withStyles from "@material-ui/core/styles/withStyles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
-//? Redux
+// Redux stuff
 import { connect } from "react-redux";
 import { loginUser } from "../redux/actions/userActions";
 
-//? style theme
-const styles = {
-  form: {
-    textAlign: "center",
-    color: "white"
-  },
-  image: {
-    margin: "8em auto 20px auto",
-    maxWidth: 180,
-    maxHeight: 100,
-    webkitAnimation: "example 3s infinite alternate",
-    animation: "example 5s infinite alternate"
-  },
-
-  pageTitle: {
-    margin: "20px auto 20px auto",
-    textShadow: ".5px .5px 3px rgba(255, 255, 255, 0.39)",
-
-    color: "#673ab7 !important"
-  },
-  TextField: {
-    margin: "10px auto 10px auto"
-  },
-  input: {
-    color: "white",
-    borderBottomColor: "white"
-  },
-  labelRoot: {
-    color: "white",
-    borderBottomColor: "white !important"
-  },
-  Button: {
-    margin: 25,
-    position: "relative",
-    "&:hover": {
-      boxShadow: "0px 1px 20px 10px #DDDCE0",
-      color: "white"
-    }
-  },
-  progress: {
-    position: "absolute"
-  },
-  customError: {
-    color: "red",
-    fontSize: "0.8rem",
-    marginTop: 10
-  },
-
-  signupLink: {
-    color: "red !important",
-    borderBottom: "1px solid red"
-  }
-};
+const styles = theme => ({
+  ...theme.spreadIt
+});
 
 class login extends Component {
   constructor() {
@@ -81,9 +27,6 @@ class login extends Component {
       errors: {}
     };
   }
-
-  //? Replace with 'getDerivedStateFromProps'
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.UI.errors) {
       this.setState({ errors: nextProps.UI.errors });
@@ -108,25 +51,22 @@ class login extends Component {
       UI: { loading }
     } = this.props;
     const { errors } = this.state;
+
     return (
       <Grid container className={classes.form}>
         <Grid item sm />
         <Grid item sm>
-          <img src={AppIcon} alt="shuttle!" className={classes.image} />
-          <Typography variant="h1" className={classes.pageTitle}>
-            Shuttle
+          <img src={AppIcon} alt="rocket" className={classes.image} />
+          <Typography variant="h2" className={classes.pageTitle}>
+            Login
           </Typography>
-          <form
-            noValidate
-            onSubmit={this.handleSubmit}
-            className={classes.FormInputs}
-          >
+          <form noValidate onSubmit={this.handleSubmit}>
             <TextField
               id="email"
               name="email"
               type="email"
-              label="Email:"
-              className={classes.TextField}
+              label="Email"
+              className={classes.textField}
               helperText={errors.email}
               error={errors.email ? true : false}
               value={this.state.email}
@@ -135,19 +75,16 @@ class login extends Component {
                 className: classes.input
               }}
               InputLabelProps={{
-                classes: {
-                  root: classes.labelRoot
-                }
+                className: classes.floatingLabelFocusStyle
               }}
               fullWidth
             />
             <TextField
-              className={classes.TextField}
-              variant="standard"
               id="password"
               name="password"
               type="password"
-              label="Launch Code:"
+              label="Password"
+              className={classes.textField}
               helperText={errors.password}
               error={errors.password ? true : false}
               value={this.state.password}
@@ -156,9 +93,7 @@ class login extends Component {
                 className: classes.input
               }}
               InputLabelProps={{
-                classes: {
-                  root: classes.labelRoot
-                }
+                className: classes.floatingLabelFocusStyle
               }}
               fullWidth
             />
@@ -169,22 +104,19 @@ class login extends Component {
             )}
             <Button
               type="submit"
-              variant="outlined"
+              variant="contained"
               color="primary"
-              className={classes.Button}
+              className={classes.button}
               disabled={loading}
             >
-              Board Shuttle
+              Login
               {loading && (
                 <CircularProgress size={30} className={classes.progress} />
               )}
             </Button>
             <br />
-            <small className={classes.signupMessage}>
-              Dont have a shuttle? Sign up{" "}
-              <Link to="/signup" className={classes.signupLink}>
-                Here!
-              </Link>
+            <small>
+              dont have an account ? sign up <Link to="/signup">here</Link>
             </small>
           </form>
         </Grid>
@@ -193,7 +125,7 @@ class login extends Component {
     );
   }
 }
-//? full width (above) is apart of the MUI library
+
 login.propTypes = {
   classes: PropTypes.object.isRequired,
   loginUser: PropTypes.func.isRequired,

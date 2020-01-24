@@ -1,19 +1,17 @@
 import React, { Component, Fragment } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
-import MyButton from "../utility/MyButton";
+import MyButton from "../../utility/MyButton";
 
-//? Mui imports
+// MUI Stuff
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
-
-//? Icons
 import DeleteOutline from "@material-ui/icons/DeleteOutline";
 
 import { connect } from "react-redux";
-import { deleteShuttle } from "../redux/actions/dataActions";
+import { deleteShuttle } from "../../redux/actions/dataActions";
 
 const styles = {
   deleteButton: {
@@ -22,7 +20,8 @@ const styles = {
     top: "10%"
   }
 };
-export class DeleteShuttle extends Component {
+
+class DeleteShuttle extends Component {
   state = {
     open: false
   };
@@ -33,7 +32,7 @@ export class DeleteShuttle extends Component {
     this.setState({ open: false });
   };
   deleteShuttle = () => {
-    this.props.deleteShuttle(this.props.shuttlesId);
+    this.props.deleteShuttle(this.props.shuttleId);
     this.setState({ open: false });
   };
   render() {
@@ -42,7 +41,7 @@ export class DeleteShuttle extends Component {
     return (
       <Fragment>
         <MyButton
-          tip="Delete Shuttle"
+          tip="Delete shuttle"
           onClick={this.handleOpen}
           btnClassName={classes.deleteButton}
         >
@@ -54,7 +53,9 @@ export class DeleteShuttle extends Component {
           fullWidth
           maxWidth="sm"
         >
-          Are you sure you want to delete this shuttle?
+          <DialogTitle>
+            Are you sure you want to delete this shuttle ?
+          </DialogTitle>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
               Cancel
@@ -72,7 +73,9 @@ export class DeleteShuttle extends Component {
 DeleteShuttle.propTypes = {
   deleteShuttle: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
-  shuttlesId: PropTypes.string.isRequired
+  shuttleId: PropTypes.string.isRequired
 };
 
-export default connect(withStyles)(DeleteShuttle);
+export default connect(null, { deleteShuttle })(
+  withStyles(styles)(DeleteShuttle)
+);

@@ -16,19 +16,24 @@ a {
   max-width: 1200px;
 }
 
-.Nav-container {
+.navContainer {
   margin: auto;
 }
 .Nav-container svg {
   color: #ffffff;
 }
 
-.App {
+.shuttleLanding {
+  overflow: scroll;
+}
+
+.wrapperDiv {
   background-image: url("./Assets/specialStarry.jpg");
   background-repeat: repeat;
   background-size: cover;
   height: 100vh;
   width: 100vw;
+  overflow: scroll;
   -webkit-animation: slide 50s linear infinite;
 }
 
@@ -45,6 +50,10 @@ a {
 
 .shuttleBay {
   margin-top: 20px;
+}
+
+a {
+  color: red;
 }
 @keyframes slide {
   from {

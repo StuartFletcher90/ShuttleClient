@@ -1,65 +1,22 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
+import AppIcon from "../Assets/ufo.png";
+import { Link } from "react-router-dom";
 
-//?img imports
-import Ufo from "../Assets/ufo.png";
-
-//? More mui imports
+// MUI Stuff
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import withStyles from "@material-ui/core/styles/withStyles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
-
-//? Redux stuff
+// Redux stuff
 import { connect } from "react-redux";
 import { signupUser } from "../redux/actions/userActions";
 
-//TODO import themes into login page
-const styles = {
-  form: {
-    textAlign: "center",
-    color: "white"
-  },
-  pageTitle: {
-    margin: "20px auto 20px auto",
-    textShadow: ".5px .5px 3px rgba(255, 255, 255, 0.39)",
-
-    color: "#673ab7 !important"
-  },
-  TextField: {
-    margin: "10px auto 10px auto"
-  },
-  input: {
-    color: "white",
-    borderBottomColor: "white"
-  },
-  labelRoot: {
-    color: "white",
-    borderBottomColor: "white !important"
-  },
-  Button: {
-    margin: 25,
-    position: "relative",
-    "&:hover": {
-      boxShadow: "0px 1px 20px 10px #DDDCE0",
-      color: "white"
-    }
-  },
-  imageUfo: {
-    margin: "40px auto 20px auto",
-    maxWidth: 180,
-    maxHeight: 100,
-    webkitAnimation: "Ufo 3s infinite alternate",
-    animation: "Ufo 10s infinite alternate"
-  },
-  signupLink: {
-    color: "red !important",
-    borderBottom: "1px solid red"
-  }
-};
+const styles = theme => ({
+  ...theme.spreadIt
+});
 
 class signup extends Component {
   constructor() {
@@ -72,7 +29,6 @@ class signup extends Component {
       errors: {}
     };
   }
-  //! Replace legacy component
   componentWillReceiveProps(nextProps) {
     if (nextProps.UI.errors) {
       this.setState({ errors: nextProps.UI.errors });
@@ -102,101 +58,87 @@ class signup extends Component {
       UI: { loading }
     } = this.props;
     const { errors } = this.state;
+
     return (
       <Grid container className={classes.form}>
         <Grid item sm />
         <Grid item sm>
-          <img src={Ufo} alt="Ufo" className={classes.imageUfo} />
+          <img src={AppIcon} alt="ufo" className={classes.image} />
           <Typography variant="h2" className={classes.pageTitle}>
-            Create a Shuttle
+            SignUp
           </Typography>
-          <form
-            noValidate
-            onSubmit={this.handleSubmit}
-            className={classes.FormInputs}
-          >
+          <form noValidate onSubmit={this.handleSubmit}>
             <TextField
               id="email"
               name="email"
               type="email"
-              label="Email:"
-              className={classes.TextField}
+              label="Email"
+              className={classes.textField}
               helperText={errors.email}
               error={errors.email ? true : false}
               value={this.state.email}
               onChange={this.handleChange}
+              fullWidth
+              InputLabelProps={{
+                className: classes.floatingLabelFocusStyle
+              }}
               InputProps={{
                 className: classes.input
               }}
-              InputLabelProps={{
-                classes: {
-                  root: classes.labelRoot
-                }
-              }}
-              fullWidth
             />
             <TextField
-              className={classes.TextField}
-              variant="standard"
               id="password"
               name="password"
               type="password"
-              label="Launch Code:"
+              label="Password"
+              className={classes.textField}
               helperText={errors.password}
               error={errors.password ? true : false}
               value={this.state.password}
               onChange={this.handleChange}
+              fullWidth
+              InputLabelProps={{
+                className: classes.floatingLabelFocusStyle
+              }}
               InputProps={{
                 className: classes.input
               }}
-              InputLabelProps={{
-                classes: {
-                  root: classes.labelRoot
-                }
-              }}
-              fullWidth
             />
             <TextField
-              className={classes.TextField}
-              variant="standard"
               id="confirmPassword"
               name="confirmPassword"
               type="password"
-              label="Confirm Launch Code:"
+              label="Confirm Password"
+              className={classes.textField}
               helperText={errors.confirmPassword}
               error={errors.confirmPassword ? true : false}
               value={this.state.confirmPassword}
               onChange={this.handleChange}
+              fullWidth
+              InputLabelProps={{
+                className: classes.floatingLabelFocusStyle
+              }}
               InputProps={{
                 className: classes.input
               }}
-              InputLabelProps={{
-                classes: {
-                  root: classes.labelRoot
-                }
-              }}
-              fullWidth
             />
             <TextField
-              className={classes.TextField}
-              variant="standard"
               id="handle"
               name="handle"
               type="text"
               label="Pilot Name"
+              className={classes.textField}
               helperText={errors.handle}
               error={errors.handle ? true : false}
               value={this.state.handle}
               onChange={this.handleChange}
+              fullWidth
+              InputLabelProps={{
+                className: classes.floatingLabelFocusStyle
+              }}
               InputProps={{
                 className: classes.input
               }}
-              InputLabelProps={{
-                classes: {
-                  root: classes.labelRoot
-                }
-              }}
-              fullWidth
             />
             {errors.general && (
               <Typography variant="body2" className={classes.customError}>
@@ -205,22 +147,19 @@ class signup extends Component {
             )}
             <Button
               type="submit"
-              variant="outlined"
+              variant="contained"
               color="primary"
-              className={classes.Button}
+              className={classes.button}
               disabled={loading}
             >
-              Create Shuttle
+              SignUp
               {loading && (
                 <CircularProgress size={30} className={classes.progress} />
               )}
             </Button>
             <br />
-            <small className={classes.signupMessage}>
-              Already have an account? Login{" "}
-              <Link to="/signup" className={classes.signupLink}>
-                Here!
-              </Link>
+            <small>
+              Already have an account ? Login <Link to="/login">here</Link>
             </small>
           </form>
         </Grid>
@@ -229,13 +168,14 @@ class signup extends Component {
     );
   }
 }
-//? full width (above) is apart of the MUI library
+
 signup.propTypes = {
   classes: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   UI: PropTypes.object.isRequired,
   signupUser: PropTypes.func.isRequired
 };
+
 const mapStateToProps = state => ({
   user: state.user,
   UI: state.UI

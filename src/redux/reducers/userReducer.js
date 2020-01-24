@@ -4,8 +4,9 @@ import {
   SET_UNAUTHENTICATED,
   LOADING_USER,
   LIKE_SHUTTLE,
-  UNLIKE_SHUTTLE
-} from "../reducers/types";
+  UNLIKE_SHUTTLE,
+  MARK_NOTIFICATIONS_READ
+} from "../types";
 
 const initialState = {
   authenticated: false,
@@ -52,6 +53,11 @@ export default function(state = initialState, action) {
         likes: state.likes.filter(
           like => like.shuttleId !== action.payload.shuttleId
         )
+      };
+    case MARK_NOTIFICATIONS_READ:
+      state.notifications.forEach(not => (not.read = true));
+      return {
+        ...state
       };
     default:
       return state;

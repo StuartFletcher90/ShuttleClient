@@ -1,24 +1,22 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
-import MyButton from "../utility/MyButton";
-
-//? Redux imports
-import { connect } from "react-redux";
-import { postShuttle, clearErrors } from "../redux/actions/dataActions";
-
-//? More Mui things
+import MyButton from "../../utility/MyButton";
+// MUI Stuff
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import CircularProgress from "@material-ui/core/CircularProgress";
+// Redux stuff
+import { connect } from "react-redux";
+import { postShuttle, clearErrors } from "../../redux/actions/dataActions";
 
 const styles = theme => ({
-  ...theme,
+  ...theme.spreadIt,
   submitButton: {
     position: "relative",
     float: "right",
@@ -72,7 +70,7 @@ class PostShuttle extends Component {
     } = this.props;
     return (
       <Fragment>
-        <MyButton onClick={this.handleOpen} tip="Launch a shuttle!">
+        <MyButton onClick={this.handleOpen} tip="Deploy a shuttle!!">
           <AddIcon />
         </MyButton>
         <Dialog
@@ -88,7 +86,7 @@ class PostShuttle extends Component {
           >
             <CloseIcon />
           </MyButton>
-          <DialogTitle>Post a new shuttle</DialogTitle>
+          <DialogTitle>Post a new shuttle cap'in</DialogTitle>
           <DialogContent>
             <form onSubmit={this.handleSubmit}>
               <TextField
@@ -97,7 +95,7 @@ class PostShuttle extends Component {
                 label="Shuttle"
                 multiline
                 rows="3"
-                placeholder="Launch a shuttle for your fellow pilots!"
+                placeholder="Send a shuttle to your fellow pilots!"
                 error={errors.body ? true : false}
                 helperText={errors.body}
                 className={classes.textField}

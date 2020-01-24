@@ -1,22 +1,19 @@
 import {
-  SET_SHUTTLE,
+  SET_SHUTTLES,
   LIKE_SHUTTLE,
   UNLIKE_SHUTTLE,
   LOADING_DATA,
-  SET_SHUTTLEY,
   DELETE_SHUTTLE,
-  POST_SHUTTLE
-} from "./types";
+  POST_SHUTTLE,
+  SET_SHUTTLE,
+  SUBMIT_COMMENT
+} from "../types";
 
 const initialState = {
-  shuttle: [],
-  shuttleY: {},
+  shuttles: [],
+  shuttle: {},
   loading: false
 };
-
-//? Shuttle is the array which holds all screams on a home page or the users page, keeping with the server - shuttle
-
-//? ShuttleY is the singular just the details of one shuttle
 
 export default function(state = initialState, action) {
   switch (action.type) {
@@ -25,41 +22,49 @@ export default function(state = initialState, action) {
         ...state,
         loading: true
       };
+    case SET_SHUTTLES:
+      return {
+        ...state,
+        shuttles: action.payload,
+        loading: false
+      };
     case SET_SHUTTLE:
       return {
         ...state,
-        shuttle: action.payload,
-        loading: false
-      };
-    case SET_SHUTTLEY:
-      return {
-        ...state,
-        shuttleY: action.payload
+        shuttle: action.payload
       };
     case LIKE_SHUTTLE:
     case UNLIKE_SHUTTLE:
-      let index = state.shuttle.findIndex(
-        shuttleY => shuttleY.shuttleYId === action.payload.shuttleYId
+      let index = state.shuttles.findIndex(
+        shuttle => shuttle.shuttleId === action.payload.shuttleId
       );
-      state.shuttle[index] = action.payload;
-      if (state.shuttleY.shuttleYId === action.payload.shuttleYId) {
-        state.shuttleY = action.payload;
+      state.shuttles[index] = action.payload;
+      if (state.shuttle.shuttleId === action.payload.shuttleId) {
+        state.shuttle = action.payload;
       }
       return {
         ...state
       };
     case DELETE_SHUTTLE:
-      index = state.shuttle.findIndex(
-        shuttleY => shuttleY.shuttleYId === action.payload
+      index = state.shuttles.findIndex(
+        shuttle => shuttle.shuttleId === action.payload
       );
-      state.shuttle.splice(index, 1);
+      state.shuttles.splice(index, 1);
       return {
         ...state
       };
     case POST_SHUTTLE:
       return {
         ...state,
-        shuttle: [action.payload, ...state.shuttle]
+        shuttles: [action.payload, ...state.shuttles]
+      };
+    case SUBMIT_COMMENT:
+      return {
+        ...state,
+        shuttle: {
+          ...state.shuttle,
+          comments: [action.payload, ...state.shuttle.comments]
+        }
       };
     default:
       return state;
